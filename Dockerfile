@@ -16,4 +16,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Set the correct entrypoint
-CMD ["python", "bot.py"]
+CMD ["python", "web.py"]
