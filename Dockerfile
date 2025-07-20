@@ -1,6 +1,21 @@
-FROM hrishi2861/terabox:latest
+FROM python:3.9-slim
+
+# Install system dependencies
+RUN apt-get update && \
+    apt-get install -y \
+    wget \
+    chromium \
+    chromium-driver \
+    && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
-COPY requirements.txt requirements.txt
-RUN pip3 install -r requirements.txt
+
+# Copy requirements first to leverage Docker cache
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application
 COPY . .
-CMD ["bash", "start.sh"]
+
+# Set entry point
+CMD ["python", "main.py"]  # Change to your main script name
